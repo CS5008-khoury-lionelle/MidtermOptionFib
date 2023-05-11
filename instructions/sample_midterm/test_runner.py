@@ -20,7 +20,7 @@ from typing import Union
 COMMON_ARG_FORMAT = "./pascal.out {n} {algo} 0"
 FORMAT = "markdown"
 TIMEOUT = 60
-COMMON_ARG_PYTHON = "pypy3 pascal.py --algo {algo} {n}"  # using pypy3 as it is faster than python
+COMMON_ARG_PYTHON = "python3 pascal.py --algo {algo} {n}"  # I also used  pypy3 as it is faster than python
 PYTHON_SET = ('iterative', 'recursive', 'dp')
 
 LAST_RUN_TRACKER = {"0": 0.0, "1": 0.0, "2": 0.0, "iterative": 0.0, "recursive": 0.0, "dp": 0.0}
@@ -89,11 +89,11 @@ def table_header() -> str:
 
 def main(n):
     print(table_header())
-    for i in range(1, n + 1, 500):
+    for i in range(1, n + 1, 500): ## If you use this script, you will want to change this range!! 
         print(build_row(i))
 
 
-# note while using argv directly, there are better tools for this like pip click
+# note while using argv directly, there are better tools for this like pip click as shown in pascal.py
 if __name__ == "__main__":
     _n = 30 if len(sys.argv) < 2 else int(sys.argv[1])
     if len(sys.argv) == 3:
