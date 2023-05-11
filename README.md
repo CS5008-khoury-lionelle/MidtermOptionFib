@@ -1,7 +1,7 @@
 # Midterm p1: Report on Analysis of Fibonacci  Series
 * **Author**: 
-* **GitHub**: [linke to github repo with this report]
-* **Semester** Spring 2023
+* **GitHub Repo**: [linke to github repo with this report]
+* **Semester**:
 * **Languages Used**: c, update
 
 ## Overview
