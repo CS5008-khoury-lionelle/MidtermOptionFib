@@ -118,6 +118,10 @@ def get_pascal_triangle(n: int, print_it: bool = False, version: PascalType = Pa
     return arr[n - 1]
 
 
+# click does not work on the khoury servers, instead if you are writing
+# a script for the khoury servers you will want to use argparse or just
+# sys.argv (seen in test_runner.py)
+
 @click.command()
 @click.argument("n", type=click.IntRange(min=0, max=50000, clamp=True))
 @click.option("--algo", type=click.Choice(['recursive', 'dp', 'iterative'], case_sensitive=False), default='iterative')
