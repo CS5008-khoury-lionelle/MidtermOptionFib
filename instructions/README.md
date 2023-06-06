@@ -67,11 +67,20 @@ experiences.
 ## 📝 Grading Rubric
 You will submit your files on gradescope, including both the report, your code, and any (text-based) data files
 you generated. This is a **SUMMATIVE** assignment, and as such, will follow a traditional grading pattern meaning
-grades will not be calculated until after the late date, and everything will be graded (no tiers). 
+grades will not be calculated until after the late date. 
 
 As per usual, you will have a due date and an available by/late date. We don't charge a penalty for being late, but the 
 hard cutoff is a hard cutoff, no exceptions. Why, because you should be submitting by the due date, and use the
 extra window in case there are issues. Waiting until the available by date does not warrant any additional time.
+
+
+### Canvas Rubric
+For this assignment, you will *submit* via a link to your github classroom repository (there is no gradescope submission). The grading will be manually graded following the rubric in canvas. The rubric is as follows:
+
+| Category | Missing (0pts) | Learning (1pts) | Approaching (2pts) | Meets (3pts) | Exceeds (4pts) |
+| -------- | --------------- | ---------------- | ------------------- | ------------- | --------------- |
+| **Code Quality** | No code  | Code exists but is not documented or tested. | Code exists, is documented or tested by including test files for all the code | Code is both documented and test files included | Code is written correctly, based on the language norms including memory management and small concise functions |
+
 
 * Code is easily readable, documented, and solves the problems (1 point)
 * Paper is easily readable, written at academic level with language appropriate for the audience (1 point)
