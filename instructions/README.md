@@ -101,4 +101,4 @@ extra window in case there are issues. Waiting until the available by date does 
 
 <!--- Link References -->
 [README.md]: ../README.md
-[Dynamic Programming Lab]: https://github.com/Spring23-CS5008-BOS-Lionelle/lab-pascal-triangle-dp 
+[Dynamic Programming Lab]: https://github.com/CS5008-khoury-lionelle/TeamActivities/tree/main/Module07
