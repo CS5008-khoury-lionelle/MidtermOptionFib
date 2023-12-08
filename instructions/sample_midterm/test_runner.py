@@ -12,90 +12,100 @@ python3 test_runner.py 30 > pascal_table.md
 """
 
 import subprocess
-import time
 import sys
-import math
-from typing import Union
+import csv
+import argparse
 
-COMMON_ARG_FORMAT = "./pascal.out {n} {algo} 0"
-FORMAT = "markdown"
+EXEC = "./pascal.exe"
+COMMON_ARG_FORMAT = "{n} {type}"
 TIMEOUT = 60
-COMMON_ARG_PYTHON = "python3 pascal.py --algo {algo} {n}"  # I also used  pypy3 as it is faster than python
-PYTHON_SET = ('iterative', 'recursive', 'dp')
+OUT_DEFAULT = "pascal_run.csv"
+OUT_FILE_TIME = "timings_"
+OUT_FILE_OPS = "ops_"
+CSV_HEADER = "N,Iterative,Dynamic Programming,Recursive"
 
-LAST_RUN_TRACKER = {"0": 0.0, "1": 0.0, "2": 0.0, "iterative": 0.0, "recursive": 0.0, "dp": 0.0}
+
+class RecursionTimeoutError(Exception):
+    pass
 
 
-def run_single(n: int, typ: Union[int, str], command=COMMON_ARG_FORMAT) -> float:
-    """Run a single instance collecting the total execution time
+def run_single(n: int, typ: int) -> dict:
+    """Run a single instance collecting the values into a dictionary
+    with two tuples, one for timings and one for operations
 
     Args:
-        command:
         n (int): the row to generate
         typ (int): the type of algorithm to use
 
     Returns:
         float: the time it took, or nan if TIMEOUT is reached first
     """
-    command = command.format(n=n, algo=typ)
-    if math.isnan(LAST_RUN_TRACKER[str(typ)]):
-        return math.nan  # skip running if we are already timing out
+    args = COMMON_ARG_FORMAT.format(n=n, type=typ)
     try:
-        start = time.time()
-        subprocess.run(command.split(), timeout=TIMEOUT)
-        end = time.time()
-        result = end - start
-
+        results = subprocess.run(
+            [EXEC] + args.split(), timeout=TIMEOUT, capture_output=True, text=True
+        )
     except subprocess.TimeoutExpired:
-        result = math.nan
-    LAST_RUN_TRACKER[str(typ)] = result
-    return result
+        raise RecursionTimeoutError(f"Timeout of {TIMEOUT} seconds reached for {args}")
+
+    if results.returncode != 0:
+        raise Exception(f"Error running {args}: {results.stderr}")
+
+    results_line = results.stdout.strip().split(",")
+    timings = []
+    operations = []
+    for i in range(0, len(results_line), 2):
+        timings.append(results_line[i])
+        operations.append(results_line[i + 1])
+
+    return {"timings": timings, "operations": operations}
 
 
-def build_row(n: int) -> str:
-    """Builds a row to print to the screen either in csv format or markdown
-
+def save_to_csv(values: list, out_file: str):
+    """saves a list to a csv file
     Args:
-        n (int): the row to build in the triangle
-
-    Returns:
-        str: a markdown formatted or csv string of the result
+        results (list): the results to save
+        out_file (str): the base file name to write to
     """
-    results_lst = []
-    for t in range(0, 3):
-        result = run_single(n, t)
-        results_lst.append("-" if math.isnan(result) else f"{result:.5f}")
-    iterative, recursive, dynamic_programming = results_lst
-
-    results_lst = []
-    for t in PYTHON_SET:
-        result = run_single(n, t, COMMON_ARG_PYTHON)
-        results_lst.append("-" if math.isnan(result) else f"{result:.5f}")
-    iterative_p, recursive_p, dynamic_programming_p = results_lst
-
-    if FORMAT == "markdown":
-        return f"| {n:<4} | {iterative.center(8, ' ')} | {recursive.center(8, ' ')} | {dynamic_programming.center(8, ' ')} |" \
-            + f"{iterative_p.center(8, ' ')} | {recursive_p.center(8, ' ')} | {dynamic_programming_p.center(8, ' ')} |"
-    return f"{n},{iterative},{recursive},{dynamic_programming},{iterative_p},{recursive_p},{dynamic_programming_p}"
+    with open(out_file, "w", newline="") as f:
+        csv_writer = csv.writer(f)
+        csv_writer.writerow(CSV_HEADER.split(","))
+        for i, row in enumerate(values):
+            row = [i + 1] + row
+            csv_writer.writerow(row)
 
 
-def table_header() -> str:
-    """Returns a markdown table header for this data set"""
-    if FORMAT == "markdown":
-        return "| n | Iterative C | Recursive C | Dynamic Programming  C | Iterative P | Recursive P | Dynamic Programming  P |\n" + \
-            "|--|:--:|:--:|:--:|:--:|:--:|:--:|"
-    return "n,Iterative C,Recursive C,Dynamic Programming C,Iterative P,Recursive P,Dynamic Programming P"
+def main(n, step=1, out_file=OUT_DEFAULT):
+    run_type = 3
+    results = {"timings": [], "operations": []}
+    for i in range(1, n + 1, step):
+        try:
+            result = run_single(i, run_type)
+            results["timings"].append(result["timings"])
+            results["operations"].append(result["operations"])
+        except RecursionTimeoutError as e:
+            run_type = 4
+            result = run_single(i, run_type)  # so i don't skip this one
+            results["timings"].append(result["timings"])
+            results["operations"].append(result["operations"])
+        except Exception as e:
+            print(e, file=sys.stderr)
+    save_to_csv(results["operations"], OUT_FILE_OPS + out_file)
+    save_to_csv(results["timings"], OUT_FILE_TIME + out_file)
 
 
-def main(n):
-    print(table_header())
-    for i in range(1, n + 1, 500): ## If you use this script, you will want to change this range!! 
-        print(build_row(i))
-
-
-# note while using argv directly, there are better tools for this like pip click as shown in pascal.py
 if __name__ == "__main__":
-    _n = 30 if len(sys.argv) < 2 else int(sys.argv[1])
-    if len(sys.argv) == 3:
-        FORMAT = "csv"
-    main(_n)
+    parser = argparse.ArgumentParser(description="Run the pascal triangle program")
+    parser.add_argument("n", type=int, help="the number of rows to generate")
+    parser.add_argument("--step", type=int, default=1, help="the step size")
+    parser.add_argument(
+        "--out", type=str, default=OUT_DEFAULT, help="the output file name"
+    )
+    parser.add_argument(
+        "--timeout", type=int, default=TIMEOUT, help="the timeout in seconds"
+    )
+    parser.add_argument("--exec", type=str, default=EXEC, help="the executable to run")
+    args = parser.parse_args()
+    TIMEOUT = args.timeout  # reset them if needed
+    EXEC = args.exec
+    main(args.n, args.step, args.out)
