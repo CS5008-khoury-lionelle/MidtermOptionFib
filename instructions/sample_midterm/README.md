@@ -224,8 +224,8 @@ def pascal_r(n: int, i: int) -> int:
 To allow it to use dynamic programming, I only had to add the cache wrapper function
 
 ```python 
-from functools import cache
-@cache(maxsize=None)
+from functools import lru_cache
+@lru_cache(maxsize=None)
 def pascal_dp(n: int, i: int) -> int:
     if n == i or i == 0:
         return 1
