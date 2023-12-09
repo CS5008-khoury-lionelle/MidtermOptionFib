@@ -61,7 +61,7 @@ def run_single(n: int, typ: int) -> dict:
     return {"timings": timings, "operations": operations}
 
 
-def save_to_csv(values: list, out_file: str):
+def save_to_csv(values: list, out_file: str, step):
     """saves a list to a csv file
     Args:
         results (list): the results to save
@@ -71,7 +71,7 @@ def save_to_csv(values: list, out_file: str):
         csv_writer = csv.writer(f)
         csv_writer.writerow(CSV_HEADER.split(","))
         for i, row in enumerate(values):
-            row = [i + 1] + row
+            row = [i*step + 1] + row
             csv_writer.writerow(row)
 
 
@@ -85,13 +85,14 @@ def main(n, step=1, out_file=OUT_DEFAULT):
             results["operations"].append(result["operations"])
         except RecursionTimeoutError as e:
             run_type = 4
-            result = run_single(i, run_type)  # so i don't skip this one
+            result = run_single(i, run_type)
             results["timings"].append(result["timings"])
             results["operations"].append(result["operations"])
         except Exception as e:
             print(e, file=sys.stderr)
-    save_to_csv(results["operations"], OUT_FILE_OPS + out_file)
-    save_to_csv(results["timings"], OUT_FILE_TIME + out_file)
+            break # if i hit this I have to try to end the loop
+    save_to_csv(results["operations"], OUT_FILE_OPS + out_file,step)
+    save_to_csv(results["timings"], OUT_FILE_TIME + out_file,step)
 
 
 if __name__ == "__main__":

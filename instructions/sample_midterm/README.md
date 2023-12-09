@@ -68,50 +68,77 @@ in a language designed for quick development and experimentation.
 For all empirical results, I maxed out the time interval to 60 seconds. This allowed for execution of code
 in a timely manner, while still being able to run multiple iterations ([test script]).
 
-Empirically, the recursive versions for both C and Python timed out much quicker than the rest. As seen in the following.
+Below we highlight both the speed and operations for all algorithms. 
+
+
+### Operations Comparison
+The number of operations for each algorithm was calculated by adding a counter to the functions. While the counter could vary a bit based on where we added it, they were added in effectively the same spot for both C and Python versions of the algorithm. It is worth noting, that in the python dynamic programming version, the counter was take into account by the recursive algo, and due to the cache, it produced the same results as where we added the counter in the C version, showing the counter placement was correct.
+
+The first 28 rows of the triangle show in the chart below. Anything after 28 cased the recursive version to time out, so only showing the first 28 rows. For full operations count, see [ops_pascal_run_c.csv](ops_pascal_run_c.csv) and [ops_pascal_run_python.csv](ops_pascal_run_python.csv).
+
+
+#### Operations Count 
+| **N** | **Iterative** | **Dynamic Programming** | **Recursive** |
+|-------|---------------:|-------------------------:|---------------:|
+| 1     | 1             | 0                       | 0             |
+| 2     | 3             | 1                       | 1             |
+| 3     | 6             | 3                       | 4             |
+| 4     | 10            | 6                       | 11            |
+| 5     | 15            | 10                      | 26            |
+| 6     | 21            | 15                      | 57            |
+| 7     | 28            | 21                      | 120           |
+| 8     | 36            | 28                      | 247           |
+| 9     | 45            | 36                      | 502           |
+| 10    | 55            | 45                      | 1013          |
+| 11    | 66            | 55                      | 2036          |
+| 12    | 78            | 66                      | 4083          |
+| 13    | 91            | 78                      | 8178          |
+| 14    | 105           | 91                      | 16,369         |
+| 15    | 120           | 105                     | 32,752         |
+| 16    | 136           | 120                     | 65,519         |
+| 17    | 153           | 136                     | 131,054        |
+| 18    | 171           | 153                     | 262,125        |
+| 19    | 190           | 171                     | 524,268        |
+| 20    | 210           | 190                     | 1,048,555       |
+| 21    | 231           | 210                     | 2,097,130       |
+| 22    | 253           | 231                     | 4,194,281       |
+| 23    | 276           | 253                     | 8,388,584       |
+| 24    | 300           | 276                     | 16,777,191      |
+| 25    | 325           | 300                     | 33,554,406      |
+| 26    | 351           | 325                     | 67,108,837      |
+| 27    | 378           | 351                     | 134,217,700     |
+| 28    | 406           | 378                     |   268,435,427     |
+
+
 
 ### Recursive Versions
-![Recursive C]  
-The C recursive version topped out at N=35 before it ended up taking more than a minute to run. It is also easy
-to see the quick curve.  
+![Recursive Runtime]  
+With both version, it is easy to see the exponential growth of the recursive version. The C version timed out at N=33, while the python version topped out at N=28. The chart uses a double axis, the python axis is on right hand side showing at N=28 the speed was roughly 54 sections. The C version with N=33 was roughly 40 seconds (causing 34 to go above 60 seconds).
 
-![Recursive P]  
-The python version also topped out quickly, with N=35 before it ended up taking a minute to run. 
 
 ### Iterative and Dynamic Programming Versions
 Due to the increased speed with the iterative and dynamic programming versions, we were able to look at much
 larger N values to see a more gradual curve. 
 
-![Python DP and Iterative]  
-While the Dynamic Programming was slower than the Iterative Version, it is possible to map them on different axes,
-showing they have the same curve. The computer they were ran on was also working on various tasks, thus the
-variation between runs. Interestingly, the iterative version seemed to vary more than the dynamic programming version.
+![Iterative and Dynamic Programming Runtime]
+
+The chart uses a double axis, the python axis is on right hand side. Both the dynamic programming version align nearly exactly in their speed times, minus the overall speed difference between the languages. The iterative has a bit more variation between the languages, but still follows a similar curve. The curve for both the iterative and dynamic programming versions is $O(n^2)$, as expected. 
+
+It is possible the differences in speed could be to the function call overhead, and neither version went through heavy optimization. 
+
+### Speed Comparison Between Languages
+In all cases, the C version was faster than the python version. However, the average difference when running the algorithm was minimal, but the difference at larger numbers of N was more noticeable.
+
+| Version | Average Speed Difference | Max Speed Difference |
+| :-- | :-- | :-- | 
+| Iterative | 1.603057459 |	8.032182| 
+| Dynamic Programming | 3.39702299|	14.377136 | 
+| Recursive | 3.942182071 |	54.427153 | 
+
+Overall, the algorithms follow the expected Big $O$ analysis of $O(n^2)$ for both the iterative and dynamic programming versions. The recursive version is $O(2^n)$, but the space used is $O(n)$ or $O(1)$ depending on the version. In all cases, the C implementation was faster than the python implementation, though sometimes minimal depending on the value of $N$.
 
 
-![C DP and Iterative]  
-The C version out to N = 5565 is difficult to see, partially due to the speed of the algorithms. Even running at 
-N = 50,000, the C iterative version only took ~13 seconds. The dynamic programming version in C took about a minute 
-for N=50,000.  However, it is possible to see the variation, and same curve for both DP and Iterative. 
 
-For a better comparison, I ran N out to 24,501, taking steps in 500. 
-
-![C Larger N]  
-For the large number comparison, it is even more evident that the dynamic programming and iterative versions
-follow the same curve with less variation in the dynamic programming version.
-
-The larger jumps to N, gave us the follow timeout windows for each algorithm.
-
-| Algorithm | N (timeout < 60 seconds) | Last Timed Incident (seconds)
-|--|:--:|:--:|
-| Iterative C |   50,000+ | 13+ | 
-| Recursive C | 35 | 56 |
-| Dynamic Programming  C | 50,000 | 59 |
-| Iterative P | 7001 | 31
-| Recursive P | 30 | 33 |
-| Dynamic Programming  P | 5501 | 47 |
-
-For every case across both languages  Iterative was faster than dynamic programming was much faster than
-recursive versions. 
 
 ## Language Analysis
 
@@ -273,11 +300,8 @@ Accessed on: February 16, 2023.
 
 <!-- auto references -->
 [Pascal's Triangle]: https://en.wikipedia.org/wiki/Pascal%27s_triangle
-[Recursive C]: recursive_c.png
-[Recursive P]: recursive_p.png
-[Python DP and Iterative]: python_iterative_dp.png
-[C DP and Iterative]: c_iterative_dp.png
-[C Larger N]: large_number_c.png
+[Recursive Runtime]: recursive_run_time.png
+[Iterative and Dynamic Programming Runtime]: iter_dp_runtime.png
 [test script]: test_runner.py
 [pascalr.c]: pascalr.c
 [pascal.py]: pascal.py

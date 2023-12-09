@@ -4,7 +4,7 @@
 #include <time.h>
 #include <stdint.h>
 
-#define MAX 5000
+#define MAX 50010
 #define PRINT_SINGLE 1
 #define PRINT_ALL 2
 
