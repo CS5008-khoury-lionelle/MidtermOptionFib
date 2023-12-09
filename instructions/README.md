@@ -26,17 +26,20 @@ your second language, you will need to implement the following algorithms.
   * Using Dynamic Programming
 
 * Be able to print out from 1..N of the Fibonacci Series
-  * Print just N
-  * Print nothing / execute correctly 
+  * Print out the series
+  * Print out speed and operations for each
 
-Go back to your [Dynamic Programming Lab] for a similar setup.  The code had the option to print either 
-everything, the final result, or nothing. The nothing version helps with running tests scripts. 
+Go back to your [Dynamic Programming Lab] for a similar setup.  The code has the options to print
+algorithms individually with output to check to make sure it is working correctly, or to time the algorithms 
+printing them in a comma separated format.
 
 For your second language, you will want to use techniques that are more common for that language, and are free to
 use their full library support.
 
 The primary goal of this assignment in addition to demonstrating your understanding of Big O and dynamic programming, 
 is for you to explore the differences between languages, and ways to make your code more efficient. 
+
+You do not have to follow the examples provided! They are just starting points, but how you write your code and generate the data you need for the report is up to you. Our final goal is to grade your report, so make sure to include all the information we need to grade it.
 
 ## Report
 👉🏽 **Task** : Write your final report in your [README.md]. Make sure to use proper "formatting".
@@ -62,20 +65,18 @@ a great location to talk about things you tried/attempted, but opted not to be p
 * Conclusions / Reflection - Mainly a reflection / lessons learned, but ties up your final report with the key takeaway
 experiences. 
 
-> We don't have a specific format for references, but if you use references make sure to include them! 
+> We don't have a specific format for references, but if you use references which most of you will have a least one make sure to include them! 
 
 ## 📝 Grading Rubric
-You will submit your files on gradescope, including both the report, your code, and any (text-based) data files
-you generated. This is a **SUMMATIVE** assignment, and as such, will follow a traditional grading pattern meaning
+For this assignment, you will *submit* to canvas by providing a link to your github classroom repository (there is no gradescope submission). 
+
+This is a **SUMMATIVE** assignment, and as such, will follow a traditional grading pattern meaning
 grades will not be calculated until after the late date. 
 
-As per usual, you will have a due date and an available by/late date. We don't charge a penalty for being late, but the 
-hard cutoff is a hard cutoff, no exceptions. Why, because you should be submitting by the due date, and use the
-extra window in case there are issues. Waiting until the available by date does not warrant any additional time.
+As per usual, you will have a due date and an available by/late date. We don't charge a penalty for being late, but the  hard cutoff is a hard cutoff, no exceptions. Why, because you should be submitting by the due date, and use the extra window in case there are issues. Waiting until the available by date does not warrant any additional time.
 
 
-### Canvas Rubric
-For this assignment, you will *submit* to canvas by providing a link to your github classroom repository (there is no gradescope submission). The grading will be manually graded following the rubric in canvas. The rubric is as follows:
+The grading will be manually graded following the rubric in canvas. The rubric is as follows:
 
 | Category | Missing (0pts) | Learning (1pts) | Approaching (2pts) | Meets (3pts) | Exceeds (4pts) |
 | -------- | --------------- | ---------------- | ------------------- | ------------- | --------------- |
@@ -94,11 +95,12 @@ For this assignment, you will *submit* to canvas by providing a link to your git
 * [Github Markdown Tables](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables)
 * [Markdown Latex Math](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions)
 * [Latex Math](https://en.wikibooks.org/wiki/LaTeX/Mathematics) 
-* [Tables Generator](https://www.tablesgenerator.com/markdown_tables)
+* [Tables Generator](https://www.tablesgenerator.com/markdown_tables) - helps build markdown tables
+* [CSV to Markdown](https://tableconvert.com/csv-to-markdown) - another option to generate markdown tables
 * [Grammarly How to write a report](https://www.grammarly.com/blog/how-to-write-a-report/) - no need to follow their specific format, but decent guidelines.
 * [Indeed Write A Report](https://www.indeed.com/career-advice/career-development/how-to-write-a-report) - same, no need for specific format, but decent guidelines
 
 
 <!--- Link References -->
 [README.md]: ../README.md
-[Dynamic Programming Lab]: https://github.com/CS5008-khoury-lionelle/TeamActivities/tree/main/Module07
+[Dynamic Programming Lab]: https://github.com/CS5008-khoury-lionelle/TeamActivities/tree/main/Module06
