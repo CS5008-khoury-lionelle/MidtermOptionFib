@@ -233,24 +233,19 @@ def pascal_dp(n: int, i: int) -> int:
 ```
 
 This function caches any result of a "pure function", which when programming in python is ideal to use. It has
-the cost of a space overhead, but with one addition, code becomes instantly faster.  However,
-when running the code, I ran into the stack size limitation built into python on recursive calls, and even increasing
-the stack size wasn't effective. As such, I  had to add for my dynamic programming version (the standard recursive didn't
-run fast enough for this to be an issue) a "build up" where I ran to smaller numbers of N, before larger numbers.
-Because the DP version returns early if it hits end, this created a sliding window. 
+the cost of a space overhead, but with one addition, code becomes faster.  However,
+when running the code, I ran into the stack size limitation built into python on recursive calls which then had to be increased. 
 
-I use the argparse library to handle program arguments. Overall, this allowed a lot less utility code. It also made it easier to "try out" 
-various implementations of the functions as I was looking into optimizing them. 
 
 
 ### Comparison and Discussion Between Experiences
-C runs obviously faster than Python, and in every case the iterative runs faster than the dynamic programming even
+C runs  faster than Python, and in every case the iterative runs faster than the dynamic programming even
 if the Big O for them is the same. However, there are further optimizations of the recursive version that I did not
 implement including using the symmetry of the triangle to my advantage. It would have been much
 more complex to make such changes in the iterative version. Additionally, the iterative code was more complex to write, 
 and I spent more time writing and debugging it than I did other versions. 
 
-The simplicity of adding caching to python was noticeable, but the speed difference of nearly a factor of 10 may not
+The simplicity of adding caching to python was noticeable, but the speed difference may not
 make the simplicity worth it. 
 
 Briefly explored, but slightly against the spirit of this report was "precaching" the triangle. With both python
