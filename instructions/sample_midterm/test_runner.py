@@ -40,10 +40,10 @@ def run_single(n: int, typ: int) -> dict:
     Returns:
         float: the time it took, or nan if TIMEOUT is reached first
     """
-    args = COMMON_ARG_FORMAT.format(n=n, type=typ)
     try:
+        command = f"{EXEC} {n} {typ}"
         results = subprocess.run(
-            [EXEC] + args.split(), timeout=TIMEOUT, capture_output=True, text=True
+            command.split(), timeout=TIMEOUT, capture_output=True, text=True
         )
     except subprocess.TimeoutExpired:
         raise RecursionTimeoutError(f"Timeout of {TIMEOUT} seconds reached for {args}")

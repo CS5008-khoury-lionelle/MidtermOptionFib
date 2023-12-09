@@ -8,8 +8,9 @@ address common questions on what each category is needing. As a reminder, while 
 > report will be using the Fibonacci Series.
 
 ## Overview
-This report focuses on the speed differences between implementations of [Pascal's Triangle]<sup>1</sup>. Pascal's Triangle 
-represents the binomial coefficients as a triangle staring with 1 and progressing. It can be presented mathematically
+This report focuses on the speed differences between implementations of [Pascal's Triangle]<sup>[1]</sup>. It is worth mentioning, that while it is known as Pascal's Triangle in the western world, it goes by multiple names as discovered by multiple cultures throughout the world. Some names include: Khayyam (مثلث خیام) and Yang Hui (杨辉三角; 楊輝三角) Triangle.
+
+Pascal's triangle represents the binomial coefficients as a triangle staring with 1 and progressing. It can be presented mathematically
 as:
 
 $$\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$$
@@ -51,7 +52,7 @@ RV(n,i)
 ```
 Each row of the triangle contains one more element than the previous row. To generate the nth row, the algorithm must 
 calculate n elements, each of which is the sum of two elements in the previous row. 
-This means that the algorithm must make $2^(n-1)$ recursive calls to generate the entire nth row. 
+This means that the algorithm must make $2^{(n-1)}$ recursive calls to generate the entire nth row. 
 However, the only space it has to keep is the final row  itself (or if printing, no space is used), 
 making the space used either $O(n)$ or $O(1)$. 
 
@@ -193,11 +194,11 @@ def pascal_r(n: int, i: int) -> int:
     return pascal_r(n - 1, i) + pascal_r(n - 1, i - 1)
 ```
 
-To allow it to use dynamic programming, I only had to add the lru_cache wrapper function
+To allow it to use dynamic programming, I only had to add the cache wrapper function
 
 ```python 
-from functools import lru_cache
-@lru_cache(maxsize=None)
+from functools import cache
+@cache(maxsize=None)
 def pascal_dp(n: int, i: int) -> int:
     if n == i or i == 0:
         return 1
@@ -211,12 +212,9 @@ the stack size wasn't effective. As such, I  had to add for my dynamic programmi
 run fast enough for this to be an issue) a "build up" where I ran to smaller numbers of N, before larger numbers.
 Because the DP version returns early if it hits end, this created a sliding window. 
 
-For the python version, I made an enum to make function selection easier, and use the Click library to handle
-program arguments. Overall, this allowed a lot less utility code. It also made it easier to "try out" various
-implementations of the functions as I was looking into optimizing them. 
+I use the argparse library to handle program arguments. Overall, this allowed a lot less utility code. It also made it easier to "try out" 
+various implementations of the functions as I was looking into optimizing them. 
 
-When running the python version, I use pypy, which is a JIT compiler for python. This added some overhead at
-the start of the run, but increased the speed of the runs overall once the compiler could optimize the code. 
 
 ### Comparison and Discussion Between Experiences
 C runs obviously faster than Python, and in every case the iterative runs faster than the dynamic programming even
@@ -231,7 +229,7 @@ make the simplicity worth it.
 Briefly explored, but slightly against the spirit of this report was "precaching" the triangle. With both python
 and C, I could quickly write out a file that had N to a high number (20,000). Then using the dynamic programming
 version, I was able to load that file and thus make my access time of $O(1)$ at the cost of a slower start up time
-for the program. This idea came from my initial pyhon runs where I just called the code, and dynamic programming
+for the program. This idea came from my initial python runs where I just called the code, and dynamic programming
 version was running much faster due to the cache remaining in memory and not unloading. Also, the way the lru_cache 
 works, I explored running N to 50,000 as a separate thread. Since the cache uses a pure function, it would mean
 the started thread would have a chance of generating the needed N row before the program generated it. While not 
@@ -247,7 +245,7 @@ is built on the idea that the previous row needs to be built before it. However,
 version difference wasn't noticeable, and much easier to code. Furthermore, something the iterative version
 would not allow is precaching the data, whereas the dynamic programming would adapt nicely if the program
 kept caches of previous runs and leaded those runs as needed. There would be a file load overhead, but at the
-cost of increased speed. At the same time, when the iterative C version as calculating N=50,000 is about 13 seconds, 
+advantage of increased speed. At the same time, when the iterative C version as calculating N=50,000 is about 13 seconds, 
 it wouldn't make sense to spend much time on alternative solutions - it was already blazing fast 
 compared to other solutions. 
 
