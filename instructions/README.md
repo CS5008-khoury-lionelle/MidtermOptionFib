@@ -29,9 +29,7 @@ your second language, you will need to implement the following algorithms.
   * Print out the series
   * Print out speed and operations for each
 
-Go back to your [Dynamic Programming Lab] for a similar setup.  The code has the options to print
-algorithms individually with output to check to make sure it is working correctly, or to time the algorithms 
-printing them in a comma separated format.
+Go back to your [Dynamic Programming Lab] for a similar setup or look at the [sample midterm](sample_midterm/README.md).  The code has the options to print algorithms individually with output to check to make sure it is working correctly, or to time the algorithms printing them in a comma separated format.
 
 For your second language, you will want to use techniques that are more common for that language, and are free to
 use their full library support.
