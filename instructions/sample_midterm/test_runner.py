@@ -4,11 +4,22 @@ process time for multiple iterations. External scripts like this are
 common in research.    
 
 
+
 Sample execution would be to write out the standard out (print) to a file. For example
 
-python3 test_runner.py 30 csv  > pascal_run.csv
+Runs the test_runner.py script with 100 iterations and a step of 10, using pascal.exe (see EXEC variable)
+python3 test_runner.py 100 --step 10   
 
-python3 test_runner.py 30 > pascal_table.md
+Renames the output files to test.csv as their basis
+python3 test_runner.py 100 --step 10 --out test.csv
+
+
+Runs python.py instead of pascal.exe
+python3 test_runner.py 100 --step 10 --out test.csv --exec "python3 pascal.py"
+
+
+Print the help message
+python3 test_runner.py --help  
 """
 
 import subprocess
