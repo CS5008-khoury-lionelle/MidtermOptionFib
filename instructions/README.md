@@ -14,8 +14,6 @@ pick a language from the following options:
 * Python
 * Java
 * C#
-* Kotlin
-* Rust
 
 While most of you know Python, you are encouraged to explore other languages, but the choice is yours.  In BOTH *C* and
 your second language, you will need to implement the following algorithms. 
